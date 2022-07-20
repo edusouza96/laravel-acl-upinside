@@ -62,7 +62,8 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = Role::where('id', $id)->first();
+        return view('roles.edit', ['role' => $role]);
     }
 
     /**
@@ -74,7 +75,11 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role = Role::where('id', $id)->first();
+        $role->name = $request->name;
+        $role->save();
+
+        return redirect()->route('role.index');
     }
 
     /**
@@ -85,6 +90,9 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role = Role::where('id', $id)->first();
+        $role->delete();
+
+        return redirect()->route('role.index');
     }
 }
