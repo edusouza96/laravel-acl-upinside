@@ -65,7 +65,11 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $permission = Permission::where('id', $id)->first();
+
+        return view('permissions.edit', [
+            'permission' => $permission
+        ]);
     }
 
     /**
@@ -77,7 +81,11 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $permission = Permission::where('id', $id)->first();
+        $permission->name = $request->name;
+        $permission->save();
+
+        return redirect()->route('permission.index');
     }
 
     /**
@@ -88,6 +96,8 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $permission = Permission::where('id', $id)->first();
+        $permission->delete();
+        return redirect()->route('permission.index');
     }
 }
