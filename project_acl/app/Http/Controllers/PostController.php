@@ -92,6 +92,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if(!Auth::user()->hasPermissionTo('Editar Artigos')){
+            throw new UnauthorizedException('403', 'You do not have the required authorization.');
+        }
+
         return view('posts.edit', [
             'post' => $post
         ]);
@@ -106,6 +110,9 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        if(!Auth::user()->hasPermissionTo('Editar Artigos')){
+            throw new UnauthorizedException('403', 'You do not have the required authorization.');
+        }
         $post->title = $request->title;
         $post->content = $request->content;
 
@@ -127,6 +134,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if(!Auth::user()->hasPermissionTo('Remover Artigos')){
+            throw new UnauthorizedException('403', 'You do not have the required authorization.');
+        }
         $post->delete();
         return redirect()->route('post.index');
     }
