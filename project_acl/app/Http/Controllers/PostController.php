@@ -30,6 +30,19 @@ class PostController extends Controller
      */
     public function create()
     {
+        /**
+         * Validação por permissão
+         */
+        if(!Auth::user()->hasPermissionTo('Cadastrar Artigo Cientifico')){
+            throw new UnauthorizedException('403', 'You do not have the required authorization.');
+        }
+
+        /**
+         * Validação por perfil
+         */
+        // if(!Auth::user()->hasRole('Administrador')){
+        //     throw new UnauthorizedException('403', 'You do not have the required authorization.');
+        // }
         return view('posts.create');
     }
 
@@ -41,6 +54,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::user()->hasPermissionTo('Cadastrar Artigo Cientifico')){
+            throw new UnauthorizedException('403', 'You do not have the required authorization.');
+        }
+
         $post = new Post();
         $post->title = $request->title;
         $post->content = $request->content;
